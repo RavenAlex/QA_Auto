@@ -18,5 +18,6 @@ class TextBoxPage(BasePage):
         full_name = self.element_is_present(self.locators.CREATED_FULL_NAME).text
         email = self.element_is_present(self.locators.CREATED_EMAIL).text
         current_address = self.element_is_present(self.locators.CREATED_CURRENT_ADDRESS).text
-        permanent_address = self.element_is_present(self.locators.CREATED_PERMANENT_ADDRESS).text
+        permanent_address = self.element_is_present(self.locators.CREATED_PERMANENT_ADDRESS)
+        # return full_name, email, current_address, permanent_address
         return full_name, email, current_address, permanent_address
