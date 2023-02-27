@@ -18,6 +18,5 @@ class TextBoxPageLocators:
 
 
 class CheckBoxPageLocators:
-
-    EXPAND_ALL_BUTTON = (By.CSS_SELECTOR, "button[title='Expand all'']")
+    EXPAND_ALL_BUTTON = (By.CSS_SELECTOR, "button[title='Expand all']")
     ITEM_LIST = (By.CSS_SELECTOR, "span[class='rct-title']")
