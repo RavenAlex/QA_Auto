@@ -1,6 +1,6 @@
 import time
 
-from pages.elements_page import TextBoxPage
+from pages.elements_page import TextBoxPage, CheckBoxPage
 
 
 class TestElements:
@@ -16,3 +16,9 @@ class TestElements:
             assert current_address == output_cur_addr
             assert permanent_address == output_per_addr
 
+    class TestCheckBox:
+        def test_checkbox(self, driver):
+            check_box_page = CheckBoxPage(driver, 'https://demoqa.com/checkbox')
+            check_box_page.open()
+            check_box_page.open_full_list()
+            check_box_page.click_random_checkbox()
