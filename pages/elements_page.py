@@ -33,7 +33,6 @@ class TextBoxPage(BasePage):
 
 
 class CheckBoxPage(BasePage):
-
     locators = CheckBoxPageLocators()
 
     def open_full_list(self):
@@ -41,17 +40,13 @@ class CheckBoxPage(BasePage):
 
     def click_random_checkbox(self):
         item_list = self.elements_are_visible(self.locators.ITEM_LIST)
-        # for item in item_list:
-        #     self.go_to_element(item)
-        #     item.click()
         count = 21
         while count != 0:
             item = item_list[random.randint(1, 15)]
             if count > 0:
                 self.go_to_element(item)
                 item.click()
-                print(item)
-                count -=1
+                count -= 1
             else:
                 break
 
@@ -59,6 +54,17 @@ class CheckBoxPage(BasePage):
         checked_list = self.elements_are_present(self.locators.CHECKED_ITEMS)
         data = []
         for box in checked_list:
-            title_item = box.find_elements(By.XPATH, "//ancestor::span[@class='rct-title']")
-            print(title_item.text)
+            title_item = box.find_element('xpath', self.locators.TITLE_ITEM)
+            # print(title_item.text)
+            data.append(title_item.text)
+        return str(data).replace(' ', '').replace('doc', '').replace('.', '').lower()
+
+    def get_output_result(self):
+        result_list = self.elements_are_present(self.locators.OUTPUT_RESULT)
+        data = []
+        for item in result_list:
+            data.append(item.text)
+        return str(data).replace(' ', '').lower()
+
+
 

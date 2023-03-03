@@ -28,6 +28,9 @@ class BasePage:
     def element_is_clickable(self, locator, timeout=5):
         return wait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
 
+    def elements_are_present(self, locator, timeout=5):
+        return wait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator))
+
     def go_to_element(self, element):
         self.driver.execute_script(f"arguments[0].scrollIntoView();", element)
 
