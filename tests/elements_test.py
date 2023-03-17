@@ -1,7 +1,8 @@
 import random
 import time
 
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, \
+    UploadAndDownloadPage
 
 
 class TestElements:
@@ -101,3 +102,17 @@ class TestElements:
             assert right == "You have done a right click", "The right click button was not pressed"
             assert click == "You have done a dynamic click", "The dynamic click button was not pressed"
 
+    class TestUploadAndDownload:
+
+        def test_upload_file(self, driver):
+            upload_download_page = UploadAndDownloadPage(driver, 'https://demoqa.com/upload-download')
+            upload_download_page.open()
+            upload_download_page.upload_file()
+            file_name, result = upload_download_page.upload_file()
+            assert file_name == result, "The file has not been uploaded"
+
+        def test_download_file(self, driver):
+            upload_download_page = UploadAndDownloadPage(driver, 'https://demoqa.com/upload-download')
+            upload_download_page.open()
+            check = upload_download_page.download_file()
+            assert check is True, "The file has not been downloaded"
