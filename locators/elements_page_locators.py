@@ -1,3 +1,5 @@
+import random
+
 from selenium.webdriver.common.by import By
 
 
@@ -79,6 +81,25 @@ class DynamicPropertiesPageLocators:
     COLOR_CHANGE_BUTTON = (By.CSS_SELECTOR, 'button[id="colorChange"]')
     VISIBLE_AFTER_FIVE_SEC_BUTTON = (By.CSS_SELECTOR, 'button[id="visibleAfter"]')
     ENABLE_BUTTON = (By.CSS_SELECTOR, 'button[id="enableAfter"]')
+
+
+class PracticeFormPageLocators:
+    FIRST_NAME_INPUT = (By.CSS_SELECTOR, 'input[id="firstName"]')
+    LAST_NAME_INPUT = (By.CSS_SELECTOR, 'input[id="lastName"]')
+    EMAIL_INPUT = (By.CSS_SELECTOR, 'input[id="userEmail"]')
+    # GENDER_INPUT = (By.CSS_SELECTOR, f'div[class*="custom-control"] label[for="gender-radio-{random.randint(1-3)}"]')
+    MOBILE_INPUT = (By.CSS_SELECTOR, 'input[id="userNumber"]')
+    SUBJECT_INPUT = (By.CSS_SELECTOR, 'input[id="subjectsInput"]')
+    # HOBBIES_INPUT = (By.CSS_SELECTOR, f'div[class*="custom-control"] label[for="hobbies-checkbox-{random.randint(1-3)}"]')
+    UPLOAD_PICTURE = (By.CSS_SELECTOR, 'input[id="uploadPicture"]')
+    CURRENT_ADDRESS_INPUT = (By.CSS_SELECTOR, 'input[id="currentAddress"]')
+    SELECT_STATE = (By.CSS_SELECTOR, 'div[id="state"]')
+    STATE_INPUT = (By.CSS_SELECTOR, 'input[id="react-select-3-input"]')
+    SELECT_CITY = (By.CSS_SELECTOR, 'div[id="city"]')
+    CITY_INPUT = (By.CSS_SELECTOR, 'input[id="react-select-4-input"]')
+    SUBMIT_BUTTON = (By.CSS_SELECTOR, 'button[id="submit"]')
+
+
 
 
 

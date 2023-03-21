@@ -6,9 +6,10 @@ import time
 from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 
-from generator.generator import generated_person, generated_file
+from generator.generator import generated_person, generated_file, generated_person_PF
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePageLocators, ButtonPageLocators, UploadAndDownloadPageLocators, DynamicPropertiesPageLocators
+    WebTablePageLocators, ButtonPageLocators, UploadAndDownloadPageLocators, DynamicPropertiesPageLocators, \
+    PracticeFormPageLocators
 from pages.base_page import BasePage
 
 
@@ -190,7 +191,6 @@ class UploadAndDownloadPage(BasePage):
         text = self.element_is_present(self.locators.UPLOADED_RESULT).text
         return file_name.split('\\')[-1], text.split('\\')[-1]
 
-
     def download_file(self):
         link = self.element_is_present(self.locators.DOWNLOAD_FILE).get_attribute('href')
         link_b = base64.b64decode(link)
@@ -205,7 +205,6 @@ class UploadAndDownloadPage(BasePage):
 
 
 class DynamicPropertiesPage(BasePage):
-
     locators = DynamicPropertiesPageLocators()
 
     def check_enable_button(self):
@@ -230,6 +229,29 @@ class DynamicPropertiesPage(BasePage):
         return True
 
 
+class PracticeFormPage(BasePage):
+    locators = PracticeFormPageLocators()
+
+    def fill_all_fields_and_submit(self):
+        person_info_pf = next(generated_person_PF())
+        first_name = person_info_pf.firstname
+        last_name = person_info_pf.lastname
+        email = person_info_pf.email
+        self.element_is_visible(self.locators.FIRST_NAME_INPUT).send_keys(first_name)
+        self.element_is_visible(self.locators.LAST_NAME_INPUT).send_keys(last_name)
+        self.element_is_visible(self.locators.EMAIL_INPUT).send_keys(email)
+        print(person_info_pf)
 
 
-
+#        def fill_all_fields(self):
+#         person_info = next(generated_person())
+#         full_name = person_info.full_name
+#         email = person_info.email
+#         current_address = person_info.current_address
+#         permanent_address = person_info.permanent_address
+#         self.element_is_visible(self.locators.FULL_NAME).send_keys(full_name)
+#         self.element_is_visible(self.locators.EMAIL).send_keys(email)
+#         self.element_is_visible(self.locators.CURRENT_ADDRESS).send_keys(current_address)
+#         self.element_is_visible(self.locators.PERMANENT_ADDRESS).send_keys(permanent_address)
+#         self.element_is_visible(self.locators.SUBMIT).click()
+#         return full_name, email, current_address, permanent_address

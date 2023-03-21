@@ -2,7 +2,7 @@ import random
 import time
 
 from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, \
-    UploadAndDownloadPage, DynamicPropertiesPage
+    UploadAndDownloadPage, DynamicPropertiesPage, PracticeFormPage
 
 
 class TestElements:
@@ -136,6 +136,14 @@ class TestElements:
             dynamic_properties_page.open()
             clickable = dynamic_properties_page.check_enable_button()
             assert clickable is True, 'Button did not enable after 5 second'
+
+    class TestPracticeForm:
+
+        def test_practice_form(self, driver):
+            practice_form_page = PracticeFormPage(driver, 'https://demoqa.com/automation-practice-form')
+            practice_form_page.open()
+            practice_form_page.fill_all_fields_and_submit()
+            time.sleep(5)
 
 
 
