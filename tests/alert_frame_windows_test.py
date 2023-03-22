@@ -1,6 +1,6 @@
 import time
 
-from pages.alert_frame_windows_page import BrowserWindowsPage
+from pages.alert_frame_windows_page import BrowserWindowsPage, AlertsPage
 
 
 class TestAlertFrameWindows:
@@ -19,4 +19,31 @@ class TestAlertFrameWindows:
             assert text_result == 'This is a sample page', 'New window has not been opened or an incorrect window has ' \
                                                            'opened'
 
+    class TestAlerts:
 
+        def test_see_alert(self, driver):
+            alert_test = AlertsPage(driver, 'https://demoqa.com/alerts')
+            alert_test.open()
+            see_alert_text = alert_test.check_see_alert()
+            assert see_alert_text == 'You clicked a button', 'Click button has not been worked or an incorrect text ' \
+                                                             'in alert '
+
+        def test_five_sec_alert(self, driver):
+            wait_alert_test = AlertsPage(driver, 'https://demoqa.com/alerts')
+            wait_alert_test.open()
+            wait_test_result = wait_alert_test.check_wait_see_alert()
+            assert wait_test_result == 'This alert appeared after 5 seconds', 'Click button has not been worked or an ' \
+                                                                              'incorrect text in alert '
+
+        def test_click_alert(self, driver):
+            click_alert_test = AlertsPage(driver, 'https://demoqa.com/alerts')
+            click_alert_test.open()
+            click_alert_test_result = click_alert_test.check_confirm_alert()
+            assert click_alert_test_result == 'You selected Ok', 'Click button has not been worked or an incorrect ' \
+                                                                 'text in alert '
+
+        def test_input_alert(self, driver):
+            click_input_alert_test = AlertsPage(driver, 'https://demoqa.com/alerts')
+            click_input_alert_test.open()
+            text, alert_text = click_input_alert_test.check_input_alert()
+            assert alert_text == f'You entered {text}', 'Click button has not been worked or an incorrect text in alert'
