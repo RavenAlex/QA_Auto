@@ -1,7 +1,7 @@
 import random
 import time
 
-from locators.alert_frame_windows_locators import BrowserWindowsPageLocators, AlertsPageLocators
+from locators.alert_frame_windows_locators import BrowserWindowsPageLocators, AlertsPageLocators, FramesPageLocators
 from pages.base_page import BasePage
 
 
@@ -52,3 +52,24 @@ class AlertsPage(BasePage):
         input_text_result = self.element_is_present(self.locators.INPUT_TEXT)
         return text, input_text_result.text
 
+
+class FramesPage(BasePage):
+    locators = FramesPageLocators()
+
+    def check_frames(self, frame_num):
+        if frame_num == 'frame1':
+            frame = self.element_is_present(self.locators.FIRST_FRAME)
+            width = frame.get_attribute('width')
+            height = frame.get_attribute('height')
+            self.driver.switch_to.frame(frame)
+            text = self.element_is_present(self.locators.FRAME_TEXT).text
+            self.driver.switch_to.default_content()
+            return [text, width, height]
+        if frame_num == 'frame2':
+            frame = self.element_is_present(self.locators.SECOND_FRAME)
+            width = frame.get_attribute('width')
+            height = frame.get_attribute('height')
+            self.driver.switch_to.frame(frame)
+            text = self.element_is_present(self.locators.FRAME_TEXT).text
+            self.driver.switch_to.default_content()
+            return [text, width, height]
