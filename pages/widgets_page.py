@@ -6,7 +6,8 @@ from selenium.webdriver import Keys
 from selenium.webdriver.support.select import Select
 
 from generator.generator import generated_color, generated_date
-from locators.widgets_page_locators import AccordianPageLocators, AutoCompletePageLocators, DataPickerPageLocators
+from locators.widgets_page_locators import AccordianPageLocators, AutoCompletePageLocators, DataPickerPageLocators, \
+    SliderPageLocators, ProgressBarPageLocators
 from pages.base_page import BasePage
 
 
@@ -119,6 +120,30 @@ class DataPickerPage(BasePage):
                 item.click()
                 break
 
+
+class SliderPage(BasePage):
+
+    locators = SliderPageLocators()
+
+    def test_slider_change(self):
+        value_before = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute('value')
+        slider_input = self.element_is_visible(self.locators.SLIDER_LINE)
+        self.action_drag_and_drop_by_offset(slider_input, random.randint(1,100), 0)
+        value_after = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute('value')
+        time.sleep(1)
+        return value_before, value_after
+
+class ProgressBarPage(BasePage):
+
+    locators = ProgressBarPageLocators()
+
+    def test_progress_bar(self):
+        progress_before = self.element_is_present(self.locators.PROGRESS_BAR).get_attribute('aria-valuenow')
+        self.element_is_visible(self.locators.STOP_START_BUTTON).click()
+        time.sleep(2)
+        self.element_is_visible(self.locators.STOP_START_BUTTON).click()
+        progress_after = self.element_is_present(self.locators.PROGRESS_BAR).get_attribute('aria-valuenow')
+        return progress_before, progress_after
 
 
 
