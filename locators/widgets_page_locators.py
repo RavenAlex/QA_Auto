@@ -44,6 +44,18 @@ class ProgressBarPageLocators:
     PROGRESS_BAR = (By.CSS_SELECTOR, 'div[class="progress-bar bg-info"]')
 
 
+class TabsPageLocators:
+    WHAT_TAB = (By.CSS_SELECTOR, 'a[id="demo-tab-what"]')
+    ORIGIN_TAB = (By.CSS_SELECTOR, 'a[id="demo-tab-origin"]')
+    USE_TAB = (By.CSS_SELECTOR, 'a[id="demo-tab-use"]')
+    MORE_TAB = (By.CSS_SELECTOR, 'a[id="demo-tab-more"]')
+    WHAT_TEXT = (By.CSS_SELECTOR, 'div[id="demo-tabpane-what"]')
+    ORIGIN_TEXT = (By.CSS_SELECTOR, 'div[id="demo-tabpane-origin"]')
+    USE_TEXT = (By.CSS_SELECTOR, 'div[id="demo-tabpane-use"]')
+    MORE_TEXT = (By.CSS_SELECTOR, 'div[id="demo-tabpane-more"]')
+
+
+
 
 
 

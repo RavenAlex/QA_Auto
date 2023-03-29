@@ -7,7 +7,7 @@ from selenium.webdriver.support.select import Select
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_page_locators import AccordianPageLocators, AutoCompletePageLocators, DataPickerPageLocators, \
-    SliderPageLocators, ProgressBarPageLocators
+    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators
 from pages.base_page import BasePage
 
 
@@ -144,6 +144,47 @@ class ProgressBarPage(BasePage):
         self.element_is_visible(self.locators.STOP_START_BUTTON).click()
         progress_after = self.element_is_present(self.locators.PROGRESS_BAR).get_attribute('aria-valuenow')
         return progress_before, progress_after
+
+
+class TabsPage(BasePage):
+
+    locators = TabsPageLocators()
+
+    def test_tabs(self, name_tab):
+        tabs = {'what':
+                         {'title': self.locators.WHAT_TAB,
+                          'content': self.locators.WHAT_TEXT},
+                     'origin':
+                         {'title': self.locators.ORIGIN_TAB,
+                          'content': self.locators.ORIGIN_TEXT},
+                     'use':
+                         {'title': self.locators.USE_TAB,
+                          'content': self.locators.USE_TEXT},
+                     'more':
+                         {'title': self.locators.MORE_TAB,
+                          'content': self.locators.MORE_TEXT}
+                     }
+        button = self.element_is_visible(tabs[name_tab]['title'])
+        button.click()
+        what_content = self.element_is_visible(tabs[name_tab]['content']).text
+        return button.text, len(what_content)
+
+
+
+
+
+
+
+        # what_tab_text = self.element_is_present(self.locators.WHAT_TEXT).text
+        # self.element_is_visible(self.locators.ORIGIN_TAB).click()
+        # time.sleep(1)
+        # origin_tab_text = self.element_is_present(self.locators.ORIGIN_TEXT).text
+        # self.element_is_visible(self.locators.USE_TAB).click()
+        # time.sleep(1)
+        # use_tab_text = self.element_is_present(self.locators.USE_TEXT).text
+        print(what_tab_text)
+        print(origin_tab_text)
+        print(use_tab_text)
 
 
 
