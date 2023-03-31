@@ -1,6 +1,6 @@
 import time
 from pages.widgets_page import AccordianPage, AutoCompletePage, DataPickerPage, SliderPage, ProgressBarPage, TabsPage, \
-    ToolTipsPage
+    ToolTipsPage, MenuPage
 
 
 class TestWidgets:
@@ -101,7 +101,6 @@ class TestWidgets:
             assert use_button == 'What' and use_content != 0, 'The tab "use" is not pressed or text in tab is missing'
             assert more_button == 'What' and more_content != 0, 'The tab "more" is not pressed or text in tab is missing'
 
-
     class TestToolTips:
 
         def test_tool_tips(self, driver):
@@ -113,6 +112,14 @@ class TestWidgets:
             assert contrary_text == 'You hovered over the Contrary', 'hover missing or incorrect content'
             assert section_text == 'You hovered over the 1.10.32', 'hover missing or incorrect content'
 
+    class TestMenu:
+
+        def test_menu(self, driver):
+            test_menu_page = MenuPage(driver, 'https://demoqa.com/menu#')
+            test_menu_page.open()
+            data = test_menu_page.check_menu_items()
+            assert data == ['Main Item 1', 'Main Item 2', 'Sub Item', 'Sub Item', 'SUB SUB LIST »', 'Sub Sub Item 1',
+                            'Sub Sub Item 2', 'Main Item 3'], "menu items dont exist or have not been selected"
 
 
 
