@@ -1,13 +1,20 @@
 import random
 import time
 
+import Levenshtein as Levenshtein
+import keyboard
+import thefuzz
+import Levenshtein
+
+from thefuzz import fuzz as f
 from selenium.common import TimeoutException
 from selenium.webdriver import Keys
 from selenium.webdriver.support.select import Select
 
-from generator.generator import generated_color, generated_date
+from generator.generator import generated_color, generated_date, generated_value, generated_select
 from locators.widgets_page_locators import AccordianPageLocators, AutoCompletePageLocators, DataPickerPageLocators, \
-    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators, ToolTipsPageLocators, MenuPageLocators
+    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators, ToolTipsPageLocators, MenuPageLocators, \
+    SelectMenuPageLocators
 from pages.base_page import BasePage
 
 
@@ -16,8 +23,8 @@ class AccordianPage(BasePage):
 
     def check_accordian(self, accordian_num):
         accordian = {'first':
-                        {'title': self.locators.SECTION_FIRST,
-                         'content': self.locators.SECTION_FIRST_CONTENT},
+                         {'title': self.locators.SECTION_FIRST,
+                          'content': self.locators.SECTION_FIRST_CONTENT},
                      'second':
                          {'title': self.locators.SECTION_SECOND,
                           'content': self.locators.SECTION_SECOND_CONTENT},
@@ -74,7 +81,6 @@ class AutoCompletePage(BasePage):
         color = self.element_is_visible(self.locators.SINGLE_VALUE)
         return color.text
 
-
     def check_remove_all_color(self):
         self.element_is_visible(self.locators.MULTI_VALUE_REMOVE_ALL).click()
         time.sleep(2)
@@ -92,7 +98,7 @@ class DataPickerPage(BasePage):
         self.set_date_by_text(self.locators.DATE_SELECT_YEARS, date.year)
         self.set_date_item_from_list(self.locators.DATE_SELECT_DAY_LIST, date.day)
         value_date_after = input_date.get_attribute('value')
-        return value_date_before, value_date_after,'The date has not been changed'
+        return value_date_before, value_date_after, 'The date has not been changed'
 
     def select_date_and_time(self):
         date = next(generated_date())
@@ -108,7 +114,6 @@ class DataPickerPage(BasePage):
         value_date_after = input_date.get_attribute('value')
         return value_date_before, value_date_after, 'The date has not been changed'
 
-
     def set_date_by_text(self, element, value):
         select = Select(self.element_is_present(element))
         select.select_by_visible_text(value)
@@ -122,19 +127,18 @@ class DataPickerPage(BasePage):
 
 
 class SliderPage(BasePage):
-
     locators = SliderPageLocators()
 
     def test_slider_change(self):
         value_before = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute('value')
         slider_input = self.element_is_visible(self.locators.SLIDER_LINE)
-        self.action_drag_and_drop_by_offset(slider_input, random.randint(1,100), 0)
+        self.action_drag_and_drop_by_offset(slider_input, random.randint(1, 100), 0)
         value_after = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute('value')
         time.sleep(1)
         return value_before, value_after
 
-class ProgressBarPage(BasePage):
 
+class ProgressBarPage(BasePage):
     locators = ProgressBarPageLocators()
 
     def test_progress_bar(self):
@@ -147,23 +151,22 @@ class ProgressBarPage(BasePage):
 
 
 class TabsPage(BasePage):
-
     locators = TabsPageLocators()
 
     def test_tabs(self, name_tab):
         tabs = {'what':
-                         {'title': self.locators.WHAT_TAB,
-                          'content': self.locators.WHAT_TEXT},
-                     'origin':
-                         {'title': self.locators.ORIGIN_TAB,
-                          'content': self.locators.ORIGIN_TEXT},
-                     'use':
-                         {'title': self.locators.USE_TAB,
-                          'content': self.locators.USE_TEXT},
-                     'more':
-                         {'title': self.locators.MORE_TAB,
-                          'content': self.locators.MORE_TEXT}
-                     }
+                    {'title': self.locators.WHAT_TAB,
+                     'content': self.locators.WHAT_TEXT},
+                'origin':
+                    {'title': self.locators.ORIGIN_TAB,
+                     'content': self.locators.ORIGIN_TEXT},
+                'use':
+                    {'title': self.locators.USE_TAB,
+                     'content': self.locators.USE_TEXT},
+                'more':
+                    {'title': self.locators.MORE_TAB,
+                     'content': self.locators.MORE_TEXT}
+                }
         button = self.element_is_visible(tabs[name_tab]['title'])
         button.click()
         what_content = self.element_is_visible(tabs[name_tab]['content']).text
@@ -187,9 +190,6 @@ class ToolTipsPage(BasePage):
     #     tool_tip_text_contrary = self.get_text_from_tool_tips(self.locators.CONTRARY_LINK, self.locators.TOOL_TIP_CONTRARY)
     #     tool_tip_text_section = self.get_text_from_tool_tips(self.locators.SECTION_LINK, self.locators.TOOL_TIP_SECTION)
     #     return tool_tip_text_button, tool_tip_text_field, tool_tip_text_contrary, tool_tip_text_section
-
-
-
 
     def get_text_from_tool_tips(self, hover_elem, wait_elem):
         element = self.element_is_present(hover_elem)
@@ -221,21 +221,47 @@ class MenuPage(BasePage):
         return data
 
 
+class SelectMenuPage(BasePage):
+    locators = SelectMenuPageLocators()
 
+    def field_select_menu(self):
+        value = self.element_is_visible(self.locators.VALUE)
+        value.click()
+        name = random.sample(next(generated_value()).value_name, k=1)
+        value_input = self.element_is_visible(self.locators.VALUE_FIELD)
+        value_input.send_keys(name)
+        value_input.send_keys(Keys.ENTER)
+        value.get_attribute('label')
+        return value, value_input
 
+    def field_select_one(self):
+        select_one = self.element_is_visible(self.locators.SELECT_ONE)
+        select_one.click()
+        name_one = random.sample(next(generated_select()).select_one_name, k=1)
+        select_one_input = self.element_is_visible(self.locators.SELECT_ONE_FIELD)
+        select_one_input.send_keys(name_one)
+        select_one_input.send_keys(Keys.ENTER)
+        select_one_input.get_attribute('label')
+        return select_one_input, name_one
 
+    def field_old_select(self):
+        old_select = self.element_is_visible(self.locators.OLD_STYLE_SELECT)
+        old_select.click()
+        count_before = random.randint(1, 9)
+        while count_before != 0:
+            old_select.send_keys(Keys.DOWN)
+            count_before -= 1
+        old_select.get_attribute('value')
+        old_select.send_keys(Keys.ENTER)
+        return old_select.text
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def field_multi_select(self):
+        multi_select = self.element_is_visible(self.locators.MULTI_SELECT)
+        multi_select.click()
+        select_before = random.randint(1, 3)
+        while select_before != 0:
+            multi_select.send_keys(Keys.DOWN)
+            select_before -= 1
+        multi_select.get_attribute('value')
+        multi_select.send_keys(Keys.ENTER)
+        return multi_select.text

@@ -70,6 +70,16 @@ class MenuPageLocators:
     MENU_ITEM_LIST = (By.CSS_SELECTOR, 'ul[id="nav"] li a')
 
 
+class SelectMenuPageLocators:
+    VALUE = (By.CSS_SELECTOR, 'div[id="withOptGroup"]')
+    VALUE_FIELD = (By.CSS_SELECTOR, 'input[id="react-select-2-input"]')
+    SELECT_ONE = (By.CSS_SELECTOR, 'div[id="selectOne"]')
+    SELECT_ONE_FIELD = (By.CSS_SELECTOR, 'input[id="react-select-3-input"]')
+    OLD_STYLE_SELECT = (By.CSS_SELECTOR, 'select[id="oldSelectMenu"]')
+    MULTI_SELECT = (By.CSS_SELECTOR, 'input[id="react-select-4-input"]')
+
+
+
 
 
 

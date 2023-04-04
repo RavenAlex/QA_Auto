@@ -1,6 +1,9 @@
 import time
+
+from thefuzz import fuzz as f
+
 from pages.widgets_page import AccordianPage, AutoCompletePage, DataPickerPage, SliderPage, ProgressBarPage, TabsPage, \
-    ToolTipsPage, MenuPage
+    ToolTipsPage, MenuPage, SelectMenuPage
 
 
 class TestWidgets:
@@ -121,5 +124,19 @@ class TestWidgets:
             assert data == ['Main Item 1', 'Main Item 2', 'Sub Item', 'Sub Item', 'SUB SUB LIST »', 'Sub Sub Item 1',
                             'Sub Sub Item 2', 'Main Item 3'], "menu items dont exist or have not been selected"
 
+
+
+    class TestSelectMenu:
+
+        def test_select_menu(self, driver):
+            select_menu_page = SelectMenuPage(driver, 'https://demoqa.com/select-menu')
+            select_menu_page.open()
+            value, value_input = select_menu_page.field_select_menu()
+            f.partial_ratio(value.text, value_input.text)
+            select_one_input, name_one = select_menu_page.field_select_one()
+            f.partial_ratio(select_one_input.text, name_one)
+            select_menu_page.field_old_select()
+            select_menu_page.field_multi_select()
+            time.sleep(2)
 
 

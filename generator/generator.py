@@ -1,6 +1,6 @@
 import random
 
-from data.data import Person, Color, Date
+from data.data import Person, Color, Date, Value, Select
 from faker import Faker
 
 faker_ru = Faker('ru_RU')
@@ -44,5 +44,13 @@ def generated_date():
         day=fake_en.day_of_month(),
         time="12:00",
     )
+def generated_value():
+    yield Value(
+        value_name=["Group 1, option 1", "Group 1, option 2", "Group 2, option 1", "Group 2, option 2", "A root option", "Another root option"]
+    )
 
+def generated_select():
+    yield Select(
+        select_one_name=["Dr.", "Mr.", "Mrs.", "Ms.", "Prof.", "Other"]
+    )
 
