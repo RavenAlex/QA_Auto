@@ -1,7 +1,8 @@
 import random
 import time
 
-from locators.interaction_page_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators
+from locators.interaction_page_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators, \
+    DroppablePageLocators
 from pages.base_page import BasePage
 
 
@@ -87,3 +88,38 @@ class ResizablePage(BasePage):
                                             random.randint(-200, -1), random.randint(-200, -1))
         min_size = self.get_px_from_width_height(self.get_max_min_size(self.locators.RESIZABLE))
         return max_size, min_size
+
+
+class DroppablePage(BasePage):
+    locators = DroppablePageLocators()
+
+    def drop_simple(self):
+        drag_div = self.element_is_visible(self.locators.DRAG_ME_SIMPLE)
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_SIMPLE)
+        self.action_drag_and_drop_to_element(drag_div, drop_div)
+        return drop_div.text
+
+    def drop_accept(self):
+        self.element_is_visible(self.locators.ACCEPT_TAB).click()
+        drag_div_false = self.element_is_visible(self.locators.NOT_ACCEPTABLE)
+        drop_div_false = self.element_is_visible(self.locators.DROP_HERE_ACCEPT)
+        self.action_drag_and_drop_to_element(drag_div_false, drop_div_false)
+        text_not_accept = drop_div_false.text
+        drag_div = self.element_is_visible(self.locators.ACCEPTABLE)
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_ACCEPT)
+        self.action_drag_and_drop_to_element(drag_div, drop_div)
+        text_accept = drop_div.text
+        return text_not_accept, text_accept
+
+    def drop_prevent(self):
+        self.element_is_visible(self.locators.PREVENT_TAB).click()
+        drag_div = self.element_is_visible(self.locators.DRAG_ME_PREVENT)
+        drop_div_inner_not_greedy = self.element_is_visible(self.locators.DROP_HERE_NOT_GREED_INNER)
+        drop_div_inner_greedy = self.element_is_visible(self.locators.DROP_HERE_GREED_INNER)
+        self.action_drag_and_drop_to_element(drag_div, drop_div_inner_not_greedy)
+        outter_not_greed = self.element_is_visible(self.locators.DROP_HERE_NOT_GREED_OUTTER_TEXT).text
+        text_not_greed_inner_box = drop_div_inner_not_greedy.text
+        self.action_drag_and_drop_to_element(drag_div, drop_div_inner_greedy)
+        outter_greed = self.element_is_visible(self.locators.DROP_HERE_GREED).text
+        text_greed_inner_box = drop_div_inner_greedy.text
+        return outter_not_greed, text_not_greed_inner_box, outter_greed, text_greed_inner_box

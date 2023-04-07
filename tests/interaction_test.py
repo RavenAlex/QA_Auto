@@ -1,6 +1,6 @@
 import time
 
-from pages.interaction_page import SortablePage, SelectablePage, ResizablePage
+from pages.interaction_page import SortablePage, SelectablePage, ResizablePage, DroppablePage
 
 
 class TestInteractions:
@@ -37,4 +37,29 @@ class TestInteractions:
             assert ('500px', '300px') == max_box, 'Incorrect maximum resize box'
             assert ('150px', '150px') == min_box, 'Incorrect minimum resize box'
             assert min_resize != max_resize, 'Resizable has not been change'
+
+
+    class TestDroppablePage:
+        def test_drop_simple(self, driver):
+            droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+            droppable_page.open()
+            text = droppable_page.drop_simple()
+            assert text == 'Dropped!', 'Simple drop has not been worked'
+
+        def test_drop_accept(self, driver):
+            droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+            droppable_page.open()
+            text_not_accept, text_accept = droppable_page.drop_accept()
+            assert text_not_accept == 'Drop here', 'Not acceptable drop has not been worked'
+            assert text_accept == 'Dropped!', 'Acceptable drop has not been worked'
+
+        def test_drop_prevent(self, driver):
+            droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+            droppable_page.open()
+            outter_not_greed, text_not_greed_inner_box, outter_greed, text_greed_inner_box =droppable_page.drop_prevent()
+            assert outter_not_greed == text_not_greed_inner_box, 'Not greed drop has not been correct worked'
+            assert outter_greed != text_greed_inner_box, 'Greed drop has not been correct worked'
+
+
+
 
