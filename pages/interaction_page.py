@@ -123,3 +123,23 @@ class DroppablePage(BasePage):
         outter_greed = self.element_is_visible(self.locators.DROP_HERE_GREED).text
         text_greed_inner_box = drop_div_inner_greedy.text
         return outter_not_greed, text_not_greed_inner_box, outter_greed, text_greed_inner_box
+
+    def drop_will_revert(self):
+        self.element_is_visible(self.locators.REVERT_TAB).click()
+        will_revert = self.element_is_visible(self.locators.WILL_REVERT)
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_REVERT)
+        self.action_drag_and_drop_to_element(will_revert, drop_div)
+        position_after_move = will_revert.get_attribute('style')
+        time.sleep(1)
+        position_after_revert = will_revert.get_attribute('style')
+        return position_after_move, position_after_revert
+
+    def drop_not_revert(self):
+        self.element_is_visible(self.locators.REVERT_TAB).click()
+        not_revert = self.element_is_visible(self.locators.NOT_REVERT)
+        drop_div = self.element_is_visible(self.locators.DROP_HERE_REVERT)
+        self.action_drag_and_drop_to_element(not_revert, drop_div)
+        position_after_move = not_revert.get_attribute('style')
+        time.sleep(1)
+        position_after_revert = not_revert.get_attribute('style')
+        return position_after_move, position_after_revert

@@ -60,6 +60,16 @@ class TestInteractions:
             assert outter_not_greed == text_not_greed_inner_box, 'Not greed drop has not been correct worked'
             assert outter_greed != text_greed_inner_box, 'Greed drop has not been correct worked'
 
+        def test_will_revert(self, driver):
+            droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+            droppable_page.open()
+            will_after_move, will_after_revert = droppable_page.drop_will_revert()
+            assert will_after_move != will_after_revert, 'Will revert has not been worked'
 
+        def test_not_revert(self, driver):
+            droppable_page = DroppablePage(driver, 'https://demoqa.com/droppable')
+            droppable_page.open()
+            not_will_after_move, not_will_after_revert = droppable_page.drop_not_revert()
+            assert not_will_after_move == not_will_after_revert, 'Not will revert has not been worked'
 
 
