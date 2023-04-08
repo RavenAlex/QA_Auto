@@ -2,7 +2,7 @@ import random
 import time
 
 from locators.interaction_page_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators, \
-    DroppablePageLocators
+    DroppablePageLocators, DraggablePageLocators
 from pages.base_page import BasePage
 
 
@@ -143,3 +143,15 @@ class DroppablePage(BasePage):
         time.sleep(1)
         position_after_revert = not_revert.get_attribute('style')
         return position_after_move, position_after_revert
+
+
+class DraggablePage(BasePage):
+    locators = DraggablePageLocators()
+
+    def simple_drag(self):
+        self.element_is_visible(self.locators.TAB_SIMPLE).click()
+        position_before = self.element_is_visible(self.locators.DRAG_SIMPLE).get_attribute('style')
+        drag_me = self.element_is_visible(self.locators.DRAG_SIMPLE)
+        self.action_drag_and_drop_by_offset(drag_me, 20, 50)
+        position_after = self.element_is_visible(self.locators.DRAG_SIMPLE).get_attribute('style')
+        return position_before, position_after

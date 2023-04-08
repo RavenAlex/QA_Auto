@@ -54,3 +54,19 @@ class DroppablePageLocators:
     NOT_REVERT = (By.CSS_SELECTOR, 'div[id="notRevertable"]')
     DROP_HERE_REVERT = (By.CSS_SELECTOR, 'div[class="revertable-drop-container"] div[id="droppable"]')
 
+
+class DraggablePageLocators:
+    TAB_SIMPLE = (By.CSS_SELECTOR, 'a[id="draggableExample-tab-simple"]')
+    DRAG_SIMPLE = (By.CSS_SELECTOR, 'div[id="draggableExample-tabpane-simple"]'
+                                    ' div[class="drag-box ui-draggable ui-draggable-handle"]')
+    TAB_AXIS = (By.CSS_SELECTOR, 'a[id="draggableExample-tab-axisRestriction"]')
+    DRAG_X = (By.CSS_SELECTOR, 'div[id="restrictedX"]')
+    DRAG_Y = (By.CSS_SELECTOR, 'div[id="restrictedY"]')
+    TAB_CONTAINER = (By.CSS_SELECTOR, 'a[id="draggableExample-tab-containerRestriction"]')
+    DRAG_BOX = (By.CSS_SELECTOR, 'div[class="draggable ui-widget-content ui-draggable ui-draggable-handle"]')
+    DROP_BOX = (By.CSS_SELECTOR, 'div[id="containmentWrapper"]')
+    DRAG_PARENT = (By.CSS_SELECTOR, 'span[class="ui-widget-header ui-draggable ui-draggable-handle"]')
+    DROP_PARENT = (By.CSS_SELECTOR, 'div[class="draggable ui-widget-content m-3"]')
+
+
+
