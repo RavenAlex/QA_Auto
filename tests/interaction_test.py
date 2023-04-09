@@ -82,3 +82,15 @@ class TestInteractions:
             assert position_before != position_after, 'Simple drag and drop has not been worked'
 
 
+        def test_draggable_axis(self, driver):
+            draggable_page = DraggablePage(driver, 'https://demoqa.com/dragabble')
+            draggable_page.open()
+            top_x, left_x = draggable_page.axis_drag_x()
+            top_y, left_y = draggable_page.axis_drag_y()
+            assert top_x[0][0] == top_x[1][0] and int(top_x[1][0]) == 0, 'drag-box position has hot been chandged or there has been a shift in the y-axis'
+            assert left_x[0][0] != left_x[1][0] and int(left_x[1][0]) != 0, 'drag-box position has hot been chandged or there has been a shift in the y-axis'
+            assert top_y[0][0] != top_y[1][0] and int(top_y[1][0]) != 0, 'drag-box position has hot been chandged or there has been a shift in the x-axis'
+            assert left_y[0][0] == left_y[1][0] and int(left_y[1][0]) == 0, 'drag-box position has hot been chandged or there has been a shift in the x-axis'
+
+
+
