@@ -2,6 +2,7 @@ import random
 import time
 
 import Levenshtein as Levenshtein
+import allure
 import keyboard
 import thefuzz
 import Levenshtein
@@ -21,6 +22,7 @@ from pages.base_page import BasePage
 class AccordianPage(BasePage):
     locators = AccordianPageLocators()
 
+    @allure.step('Check accordian')
     def check_accordian(self, accordian_num):
         accordian = {'first':
                          {'title': self.locators.SECTION_FIRST,
@@ -46,6 +48,7 @@ class AccordianPage(BasePage):
 class AutoCompletePage(BasePage):
     locators = AutoCompletePageLocators()
 
+    @allure.step('Check input multi')
     def fill_input_multi(self):
         colors = random.sample(next(generated_color()).color_name, k=random.randint(2, 5))
         for color in colors:
@@ -54,6 +57,7 @@ class AutoCompletePage(BasePage):
             input_multi.send_keys(Keys.ENTER)
         return colors
 
+    @allure.step('Check remove from multi')
     def remove_value_from_multi(self):
         count_value_before = len(self.elements_are_present(self.locators.MULTI_VALUE))
         remove_button_list = self.elements_are_visible(self.locators.MULTI_VALUE_REMOVE)
@@ -63,6 +67,7 @@ class AutoCompletePage(BasePage):
         count_value_after = len(self.elements_are_present(self.locators.MULTI_VALUE))
         return count_value_before, count_value_after
 
+    @allure.step('Check color in multi')
     def check_color_in_multi(self):
         color_list = self.elements_are_present(self.locators.MULTI_VALUE)
         colors = []
@@ -70,6 +75,7 @@ class AutoCompletePage(BasePage):
             colors.append(color.text)
         return colors
 
+    @allure.step('Check fill input single')
     def fill_input_single(self):
         color = random.sample(next(generated_color()).color_name, k=1)
         input_single = self.element_is_clickable(self.locators.SINGLE_INPUT)
@@ -77,10 +83,12 @@ class AutoCompletePage(BasePage):
         input_single.send_keys(Keys.ENTER)
         return color[0]
 
+    @allure.step('Check color in single')
     def check_color_in_single(self):
         color = self.element_is_visible(self.locators.SINGLE_VALUE)
         return color.text
 
+    @allure.step('Check remove all color')
     def check_remove_all_color(self):
         self.element_is_visible(self.locators.MULTI_VALUE_REMOVE_ALL).click()
         time.sleep(2)
@@ -89,6 +97,7 @@ class AutoCompletePage(BasePage):
 class DataPickerPage(BasePage):
     locators = DataPickerPageLocators()
 
+    @allure.step('Check select date')
     def select_date(self):
         date = next(generated_date())
         input_date = self.element_is_visible(self.locators.DATE_INPUT)
@@ -100,6 +109,7 @@ class DataPickerPage(BasePage):
         value_date_after = input_date.get_attribute('value')
         return value_date_before, value_date_after, 'The date has not been changed'
 
+    @allure.step('Check select date and time')
     def select_date_and_time(self):
         date = next(generated_date())
         input_date = self.element_is_visible(self.locators.DATE_AND_TIME_INPUT)
@@ -114,10 +124,12 @@ class DataPickerPage(BasePage):
         value_date_after = input_date.get_attribute('value')
         return value_date_before, value_date_after, 'The date has not been changed'
 
+    @allure.step('Check set date by text')
     def set_date_by_text(self, element, value):
         select = Select(self.element_is_present(element))
         select.select_by_visible_text(value)
 
+    @allure.step('Check date item from list')
     def set_date_item_from_list(self, elements, value):
         item_list = self.elements_are_present(elements)
         for item in item_list:
@@ -129,6 +141,7 @@ class DataPickerPage(BasePage):
 class SliderPage(BasePage):
     locators = SliderPageLocators()
 
+    @allure.step('Check slider change')
     def test_slider_change(self):
         value_before = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute('value')
         slider_input = self.element_is_visible(self.locators.SLIDER_LINE)
@@ -141,6 +154,7 @@ class SliderPage(BasePage):
 class ProgressBarPage(BasePage):
     locators = ProgressBarPageLocators()
 
+    @allure.step('Check progress bar')
     def test_progress_bar(self):
         progress_before = self.element_is_present(self.locators.PROGRESS_BAR).get_attribute('aria-valuenow')
         self.element_is_visible(self.locators.STOP_START_BUTTON).click()
@@ -153,6 +167,7 @@ class ProgressBarPage(BasePage):
 class TabsPage(BasePage):
     locators = TabsPageLocators()
 
+    @allure.step('Check tabs')
     def test_tabs(self, name_tab):
         tabs = {'what':
                     {'title': self.locators.WHAT_TAB,
@@ -176,21 +191,7 @@ class TabsPage(BasePage):
 class ToolTipsPage(BasePage):
     locators = ToolTipsPageLocators()
 
-    # def get_text_from_tool_tips(self, hover_elem, wait_elem):
-    #     element = self.element_is_present(hover_elem)
-    #     self.action_move_to_element(element)
-    #     self.element_is_visible(wait_elem)
-    #     tool_tip_text = self.element_is_visible(self.locators.TOOL_TIPS_INNERS)
-    #     text = tool_tip_text.text
-    #     return text
-    #
-    # def check_tool_tips(self):
-    #     tool_tip_text_button = self.get_text_from_tool_tips(self.locators.BUTTON, self.locators.TOOL_TIP_BUTTON)
-    #     tool_tip_text_field = self.get_text_from_tool_tips(self.locators.INPUT, self.locators.TOOL_TIP_INPUT)
-    #     tool_tip_text_contrary = self.get_text_from_tool_tips(self.locators.CONTRARY_LINK, self.locators.TOOL_TIP_CONTRARY)
-    #     tool_tip_text_section = self.get_text_from_tool_tips(self.locators.SECTION_LINK, self.locators.TOOL_TIP_SECTION)
-    #     return tool_tip_text_button, tool_tip_text_field, tool_tip_text_contrary, tool_tip_text_section
-
+    @allure.step('Check text from tooltips')
     def get_text_from_tool_tips(self, hover_elem, wait_elem):
         element = self.element_is_present(hover_elem)
         self.action_move_to_element(element)
@@ -200,6 +201,7 @@ class ToolTipsPage(BasePage):
         text = tool_tip_text.text
         return text
 
+    @allure.step('Check tool tips')
     def check_tool_tips(self):
         tool_tip_text_button = self.get_text_from_tool_tips(self.locators.BUTTON, self.locators.TOOL_TIP_BUTTON)
         tool_tip_text_field = self.get_text_from_tool_tips(self.locators.FIELD, self.locators.TOOL_TIP_FIELD)
@@ -212,6 +214,7 @@ class ToolTipsPage(BasePage):
 class MenuPage(BasePage):
     locators = MenuPageLocators()
 
+    @allure.step('Check menu items')
     def check_menu_items(self):
         menu_item_list = self.elements_are_present(self.locators.MENU_ITEM_LIST)
         data = []
@@ -224,6 +227,7 @@ class MenuPage(BasePage):
 class SelectMenuPage(BasePage):
     locators = SelectMenuPageLocators()
 
+    @allure.step('Check field select menu')
     def field_select_menu(self):
         value = self.element_is_visible(self.locators.VALUE)
         value.click()
@@ -234,6 +238,7 @@ class SelectMenuPage(BasePage):
         value.get_attribute('label')
         return value, value_input
 
+    @allure.step('Check field select one')
     def field_select_one(self):
         select_one = self.element_is_visible(self.locators.SELECT_ONE)
         select_one.click()
@@ -244,6 +249,7 @@ class SelectMenuPage(BasePage):
         select_one_input.get_attribute('label')
         return select_one_input, name_one
 
+    @allure.step('Check old select')
     def field_old_select(self):
         old_select = self.element_is_visible(self.locators.OLD_STYLE_SELECT)
         old_select.click()
@@ -255,6 +261,7 @@ class SelectMenuPage(BasePage):
         old_select.send_keys(Keys.ENTER)
         return old_select.text
 
+    @allure.step('Check field multi select')
     def field_multi_select(self):
         multi_select = self.element_is_visible(self.locators.MULTI_SELECT)
         multi_select.click()

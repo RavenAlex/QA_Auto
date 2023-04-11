@@ -1,5 +1,6 @@
 import os
 
+import allure
 from selenium.webdriver import Keys
 
 from generator.generator import generated_person, generated_file
@@ -10,6 +11,7 @@ from pages.base_page import BasePage
 class PracticeFormPage(BasePage):
     locators = PracticeFormPageLocators()
 
+    @allure.step('Fill in all fields')
     def fill_all_fields_and_submit(self):
         person_info_pf = next(generated_person())
         file_name, path = generated_file()
@@ -32,6 +34,7 @@ class PracticeFormPage(BasePage):
         self.element_is_visible(self.locators.SUBMIT_BUTTON).click()
         return person_info_pf
 
+    @allure.step('Check result')
     def test_practice_form_result(self):
         result_list = self.elements_are_visible(self.locators.RESULT_TABLE)
         data = []

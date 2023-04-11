@@ -1,10 +1,16 @@
 import time
+
+import allure
+
 from pages.form_page import PracticeFormPage
 
 
+@allure.suite("PracticeForm")
 class TestForm:
+    @allure.feature('TestPracticeForm')
     class TestPracticeForm:
 
+        @allure.title('Check field PracticeForm')
         def test_practice_form(self, driver):
             practice_form_page = PracticeFormPage(driver, 'https://demoqa.com/automation-practice-form')
             practice_form_page.open()
